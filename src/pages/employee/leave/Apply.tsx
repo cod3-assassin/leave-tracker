@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { FiCalendar } from 'react-icons/fi';
+import { Card } from '../../../components/ui/Card';
 
 interface LeaveForm {
   leaveType: string;
@@ -22,7 +24,6 @@ export default function ApplyLeave() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const leaveTypes = ['Annual', 'Sick', 'Casual', 'Maternity/Paternity'];
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -62,13 +63,11 @@ export default function ApplyLeave() {
           fontSize: window.innerWidth < 640 ? '14px' : '16px',
         },
       });
-      setTimeout(() => navigate('/employee/dashboard'), 1000); // Delay navigation for toast visibility
+      setTimeout(() => navigate('/employee/dashboard'), 1000);
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
     if (errors[name as keyof LeaveForm]) {
@@ -85,12 +84,16 @@ export default function ApplyLeave() {
   };
 
   return (
-    <div className="flex items-start justify-center bg-gradient-to-b from-gray-100 to-indigo-100/50 px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 min-h-screen">
-      <div className="bg-gradient-to-b from-white to-indigo-50/30 rounded-xl shadow-xl border border-indigo-100/50 p-4 sm:p-6 lg:p-8 w-full max-w-full sm:max-w-lg lg:max-w-2xl">
-        <h1 className="text-2xl sm:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 text-center mb-4 sm:mb-6">
-          Apply Leave
-        </h1>
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+    <div className="flex items-start sm:items-center justify-center bg-gradient-to-b from-gray-100 to-indigo-100/50 px-3 sm:px-4 pt-4 sm:pt-6">
+      <Card className="bg-white/20 backdrop-blur-[16px] rounded-xl shadow-md p-4 sm:p-5 lg:p-6 w-full max-w-xl lg:max-w-3xl transition-all duration-300">
+        <div className="flex items-center gap-2 mb-4 sm:mb-5">
+          <FiCalendar className="text-gray-700 w-5 h-5 sm:w-6 sm:h-6" />
+          <h2 className="text-lg sm:text-xl font-bold text-gray-800 relative">
+            Apply Leave
+            <span className="absolute -bottom-1 left-0 w-12 h-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full" />
+          </h2>
+        </div>
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
           <div className="col-span-1 lg:col-span-2">
             <label className="block text-sm sm:text-base font-semibold text-gray-800 mb-1">
               Leave Type
@@ -114,7 +117,7 @@ export default function ApplyLeave() {
                 </svg>
               </button>
               {isDropdownOpen && (
-                <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto custom-scrollbar">
+                <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-40 overflow-y-auto custom-scrollbar">
                   {leaveTypes.map((type) => (
                     <div
                       key={type}
@@ -129,9 +132,7 @@ export default function ApplyLeave() {
                 </div>
               )}
             </div>
-            {errors.leaveType && (
-              <p className="text-xs sm:text-sm text-red-500 mt-1 transition-opacity duration-200">{errors.leaveType}</p>
-            )}
+            {errors.leaveType && <p className="text-xs sm:text-sm text-red-500 mt-1">{errors.leaveType}</p>}
           </div>
           <div>
             <label className="block text-sm sm:text-base font-semibold text-gray-800 mb-1">
@@ -142,11 +143,9 @@ export default function ApplyLeave() {
               name="startDate"
               value={form.startDate}
               onChange={handleChange}
-              className="w-full px-3 py-2 text-sm sm:text-base text-gray-800 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 shadow-sm focus:scale-[1.02]"
+              className="w-full px-3 py-2 text-sm sm:text-base text-gray-800 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 shadow-sm"
             />
-            {errors.startDate && (
-              <p className="text-xs sm:text-sm text-red-500 mt-1 transition-opacity duration-200">{errors.startDate}</p>
-            )}
+            {errors.startDate && <p className="text-xs sm:text-sm text-red-500 mt-1">{errors.startDate}</p>}
           </div>
           <div>
             <label className="block text-sm sm:text-base font-semibold text-gray-800 mb-1">
@@ -157,11 +156,9 @@ export default function ApplyLeave() {
               name="endDate"
               value={form.endDate}
               onChange={handleChange}
-              className="w-full px-3 py-2 text-sm sm:text-base text-gray-800 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 shadow-sm focus:scale-[1.02]"
+              className="w-full px-3 py-2 text-sm sm:text-base text-gray-800 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 shadow-sm"
             />
-            {errors.endDate && (
-              <p className="text-xs sm:text-sm text-red-500 mt-1 transition-opacity duration-200">{errors.endDate}</p>
-            )}
+            {errors.endDate && <p className="text-xs sm:text-sm text-red-500 mt-1">{errors.endDate}</p>}
           </div>
           <div className="col-span-1 lg:col-span-2">
             <label className="block text-sm sm:text-base font-semibold text-gray-800 mb-1">
@@ -171,13 +168,11 @@ export default function ApplyLeave() {
               name="reason"
               value={form.reason}
               onChange={handleChange}
-              rows={4}
-              className="w-full px-3 py-2 text-sm sm:text-base text-gray-800 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 shadow-sm focus:scale-[1.02] resize-none"
+              rows={3}
+              className="w-full px-3 py-2 text-sm sm:text-base text-gray-800 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-200 shadow-sm resize-none"
               placeholder="Enter reason for leave"
             />
-            {errors.reason && (
-              <p className="text-xs sm:text-sm text-red-500 mt-1 transition-opacity duration-200">{errors.reason}</p>
-            )}
+            {errors.reason && <p className="text-xs sm:text-sm text-red-500 mt-1">{errors.reason}</p>}
           </div>
           <div className="col-span-1 lg:col-span-2 flex justify-center">
             <button
@@ -208,7 +203,7 @@ export default function ApplyLeave() {
             scrollbar-color: #6b7280 #f1f1f1;
           }
         `}</style>
-      </div>
+      </Card>
     </div>
   );
 }

@@ -23,7 +23,7 @@ export default function ProtectedLayout() {
         />
       )}
       <div
-        className={`fixed top-0 bottom-0 z-30 w-3/4 sm:w-64 bg-white transform transition-transform duration-300 overflow-hidden border-0 ${
+        className={`fixed top-0 bottom-0 z-30 w-3/4 sm:w-64 bg-gradient-to-b from-indigo-50 to-gray-100 transform transition-transform duration-300 overflow-hidden border-0 ${
           isSidebarOpen ? 'translate-x-0' : 'translate-x-[-100%]'
         } sm:translate-x-0`}
         style={{ boxShadow: '0 4px 12px rgba(0,0,0,0.06)' }}

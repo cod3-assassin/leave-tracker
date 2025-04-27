@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { User } from '../../../lib/dummyData';
-import React from "react";
+import React, { useMemo } from 'react';
+import { ScrollableCard } from '../../../components/ui/ScrollableCard';
 
 interface TeamSnapshotProps {
   colleagues: User[];
@@ -10,22 +11,27 @@ interface TeamSnapshotProps {
 const daysInMonth = (month: number, year: number) => new Date(year, month, 0).getDate();
 const getDayName = (day: number) => ['S', 'M', 'T', 'W', 'T', 'F', 'S'][day];
 
-// Randomly assigning status for demo purposes
-const getRandomStatus = () => {
+// Generate statuses for each day, memoized by month and year
+const generateStatuses = (days: number) => {
   const statuses = ['working', 'leave', 'holiday', 'empty'];
-  return statuses[Math.floor(Math.random() * statuses.length)];
+  return Array.from({ length: days }, () =>
+    statuses[Math.floor(Math.random() * statuses.length)]
+  );
 };
 
 export default function TeamSnapshot({ colleagues, selectedMonth }: TeamSnapshotProps) {
   const navigate = useNavigate();
   const year = new Date().getFullYear();
   const days = daysInMonth(selectedMonth, year);
-  const today = new Date(); // Current date: April 26, 2025
+  const today = new Date(); // Current date: April 27, 2025
+
+  // Memoize statuses for the current month
+  const statuses = useMemo(() => generateStatuses(days), [selectedMonth, year]);
 
   const generateDaySquares = () => {
     const squares = [];
     for (let day = 1; day <= days; day++) {
-      const status = getRandomStatus();
+      const status = statuses[day - 1];
       const colorClass =
         status === 'working'
           ? 'border-green-400'
@@ -43,7 +49,7 @@ export default function TeamSnapshot({ colleagues, selectedMonth }: TeamSnapshot
         <div
           key={day}
           className={`w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center border ${colorClass} rounded-[4px] text-[6px] sm:text-[7px] text-gray-500 hover:bg-gray-100 transition ${
-            'max-[639px]:w-[calc(100%/15)] max-[639px]:h-[calc(100%/15)]' // Media query for mobile (<640px)
+            'max-[639px]:w-[calc(100%/15)] max-[639px]:h-[calc(100%/15)]'
           } ${
             isToday ? 'relative after:content-[""] after:absolute after:w-1 sm:after:w-1.5 after:h-1 sm:after:h-1.5 after:bg-green-500 after:rounded-full after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2' : ''
           }`}
@@ -69,11 +75,10 @@ export default function TeamSnapshot({ colleagues, selectedMonth }: TeamSnapshot
   const { firstRow, secondRow, thirdRow } = getRows();
 
   return (
-    <div className="space-y-4 w-full">
-      {/* Employee Rows */}
-      <div className="divide-y divide-gray-200 w-full">
+    <ScrollableCard className="w-full" maxHeight="max-h-[340px]">
+      <div className="divide-y divide-gray-200">
         {colleagues.length > 0 ? (
-          colleagues.slice(0, 5).map((colleague) => (
+          colleagues.map((colleague) => (
             <div
               key={colleague.id}
               className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4 py-4 hover:bg-indigo-50 px-2 sm:px-4 rounded-lg transition-all duration-300 cursor-pointer"
@@ -140,7 +145,17 @@ export default function TeamSnapshot({ colleagues, selectedMonth }: TeamSnapshot
         ) : (
           <p className="text-center text-[10px] text-gray-500 py-6">No team members found.</p>
         )}
+        {colleagues.length > 5 && (
+          <div className="text-center py-3">
+            <button
+              onClick={() => navigate('/employee/team')}
+              className="text-indigo-600 hover:text-indigo-700 text-sm font-medium"
+            >
+              View More
+            </button>
+          </div>
+        )}
       </div>
-    </div>
+    </ScrollableCard>
   );
 }

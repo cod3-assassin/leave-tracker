@@ -5,10 +5,7 @@ module.exports = {
                 '[16px]': '16px',
             },
             scrollbar: {
-                thin: {
-                    'scrollbar-width': 'thin',
-                    'scrollbar-color': '#6b7280 #f1f1f1',
-                },
+                none: 'none',
             },
         },
     },

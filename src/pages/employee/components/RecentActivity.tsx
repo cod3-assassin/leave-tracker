@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { FiStar, FiAward, FiBook, FiUmbrella } from 'react-icons/fi';
 import { useMemo } from 'react';
 import { Card } from '../../../components/ui/Card';
+import { ScrollableCard } from '../../../components/ui/ScrollableCard';
 
 interface Activity {
   id: number;
@@ -62,31 +63,33 @@ export default function RecentActivity({ activities, selectedLeave }: RecentActi
           View All
         </button>
       </div>
-      <div className="space-y-3 max-h-[240px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 animate-fadeIn">
-        {displayedActivities.length > 0 ? (
-          displayedActivities.map((activity) => (
-            <Card key={activity.id} className="hover:shadow-md transition-shadow duration-300">
-              <div className="flex items-start gap-3">
-                {getEventIcon(activity.type)}
-                <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <p className="text-xs sm:text-sm font-semibold text-gray-800">{activity.title}</p>
-                    {activity.type === 'Leave' && (
-                      <span className="text-xs px-2 py-1 bg-red-200 text-red-700 rounded-full">Leave</span>
-                    )}
+      <ScrollableCard className="animate-fadeIn" maxHeight="max-h-[200px]">
+        <div className="space-y-3">
+          {displayedActivities.length > 0 ? (
+            displayedActivities.map((activity) => (
+              <Card key={activity.id} className="hover:shadow-md transition-shadow duration-300">
+                <div className="flex items-start gap-3">
+                  {getEventIcon(activity.type)}
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <p className="text-xs sm:text-sm font-semibold text-gray-800">{activity.title}</p>
+                      {activity.type === 'Leave' && (
+                        <span className="text-xs px-2 py-1 bg-red-200 text-red-700 rounded-full">Leave</span>
+                      )}
+                    </div>
+                    <p className="text-xs text-gray-600 mt-1">
+                      {new Date(activity.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    </p>
+                    <p className="text-xs sm:text-sm text-gray-700">{activity.description}</p>
                   </div>
-                  <p className="text-xs text-gray-600 mt-1">
-                    {new Date(activity.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                  </p>
-                  <p className="text-xs sm:text-sm text-gray-700">{activity.description}</p>
                 </div>
-              </div>
-            </Card>
-          ))
-        ) : (
-          <p className="text-xs sm:text-sm text-gray-600 text-center">No recent activities available</p>
-        )}
-      </div>
-      </div>
+              </Card>
+            ))
+          ) : (
+            <p className="text-xs sm:text-sm text-gray-600 text-center">No recent activities available</p>
+          )}
+        </div>
+      </ScrollableCard>
+    </div>
   );
 }

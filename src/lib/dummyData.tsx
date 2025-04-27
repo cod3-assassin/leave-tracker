@@ -26,7 +26,7 @@ export interface User {
   }
   
   export interface LeaveBalance {
-    type: 'Annual' | 'Sick' | 'Casual';
+    type: 'Annual' | 'Sick' | 'Casual'| 'Maternity'
     balance: number;
     total: number;
   }
@@ -133,6 +133,40 @@ export interface User {
     },
     {
       id: '6',
+      email: 'carol.brown@example.com',
+      name: 'Carol Brown',
+      role: 'DevOps Engineer',
+      birthday: '1991-11-05',
+      joinDate: '2022-11-01',
+      techStack: ['AWS', 'Terraform', 'Jenkins', 'Linux'],
+      education: 'B.Sc. Information Technology, UC Berkeley',
+      location: 'Austin, USA',
+      mobile: '+1-555-567-8901',
+      socialLinks: {
+        linkedin: 'https://linkedin.com/in/carolbrown',
+        instagram: 'https://instagram.com/carolbrown',
+      },
+      avatar: ""
+    },
+    {
+      id: '7',
+      email: 'carol.brown@example.com',
+      name: 'Carol Brown',
+      role: 'DevOps Engineer',
+      birthday: '1991-11-05',
+      joinDate: '2022-11-01',
+      techStack: ['AWS', 'Terraform', 'Jenkins', 'Linux'],
+      education: 'B.Sc. Information Technology, UC Berkeley',
+      location: 'Austin, USA',
+      mobile: '+1-555-567-8901',
+      socialLinks: {
+        linkedin: 'https://linkedin.com/in/carolbrown',
+        instagram: 'https://instagram.com/carolbrown',
+      },
+      avatar: ""
+    },
+    {
+      id: '8',
       email: 'alice.jones@example.com',
       name: 'Alice Jones',
       role: 'HR Manager',
@@ -149,7 +183,7 @@ export interface User {
       avatar: ""
     },
       {
-        id: '7',
+        id: '9',
         email: 'carol.brown@example.com',
         name: 'Carol Brown',
         role: 'DevOps Engineer',

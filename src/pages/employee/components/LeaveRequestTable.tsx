@@ -1,4 +1,5 @@
 import { LeaveRequest } from '../../../lib/dummyData';
+import { ScrollableCard } from '../../../components/ui/ScrollableCard';
 
 interface LeaveRequestTableProps {
   requests: LeaveRequest[];
@@ -6,30 +7,35 @@ interface LeaveRequestTableProps {
 
 export default function LeaveRequestTable({ requests }: LeaveRequestTableProps) {
   return (
-    <div className="overflow-x-auto max-h-[200px] overflow-y-auto">
-      <table className="w-full text-left text-xs sm:text-sm">
-        <thead className="bg-white sticky top-0 border-b border-gray-200">
+    <ScrollableCard className="overflow-x-auto rounded-lg" maxHeight="max-h-[158px] sm:max-h-[170px]">
+      <table className="w-full text-left">
+        <thead className="bg-gradient-to-r from-indigo-200 to-purple-200 sticky top-0 border-b-2 border-indigo-300 shadow-sm">
           <tr>
-            <th className="py-2 px-2 sm:px-4">Type</th>
-            <th className="py-2 px-2 sm:px-4">Start Date</th>
-            <th className="py-2 px-2 sm:px-4">End Date</th>
-            <th className="py-2 px-2 sm:px-4">Status</th>
+            <th className="py-2 px-1.5 sm:px-3 text-[10px] sm:text-xs font-semibold text-gray-800 w-[10%]">No.</th>
+            <th className="py-2 px-1.5 sm:px-3 text-[10px] sm:text-xs font-semibold text-gray-800 w-[20%]">Type</th>
+            <th className="py-2 px-1.5 sm:px-3 text-[10px] sm:text-xs font-semibold text-gray-800 w-[25%] whitespace-nowrap">Start Date</th>
+            <th className="py-2 px-1.5 sm:px-3 text-[10px] sm:text-xs font-semibold text-gray-800 w-[25%] whitespace-nowrap">End Date</th>
+            <th className="py-2 px-1.5 sm:px-3 text-[10px] sm:text-xs font-semibold text-gray-800 w-[20%]">Status</th>
           </tr>
         </thead>
         <tbody>
-          {requests.map((request) => (
-            <tr key={request.id} className="border-b border-gray-100 even:bg-gray-50 hover:bg-indigo-50 transition-all duration-200">
-              <td className="py-2 px-2 sm:px-4">{request.type}</td>
-              <td className="py-2 px-2 sm:px-4">{request.startDate}</td>
-              <td className="py-2 px-2 sm:px-4">{request.endDate}</td>
-              <td className="py-2 px-2 sm:px-4">
+          {requests.map((request, index) => (
+            <tr
+              key={request.id}
+              className="border-b border-gray-200 hover:bg-indigo-50/50 transition-colors duration-200"
+            >
+              <td className="py-1.5 px-1.5 sm:px-3 text-[10px] sm:text-xs text-gray-800">{index + 1}</td>
+              <td className="py-1.5 px-1.5 sm:px-3 text-[10px] sm:text-xs text-gray-800 truncate">{request.type}</td>
+              <td className="py-1.5 px-1.5 sm:px-3 text-[10px] sm:text-xs text-gray-800 whitespace-nowrap">{request.startDate}</td>
+              <td className="py-1.5 px-1.5 sm:px-3 text-[10px] sm:text-xs text-gray-800 whitespace-nowrap">{request.endDate}</td>
+              <td className="py-1.5 px-1.5 sm:px-3 text-[10px] sm:text-xs">
                 <span
-                  className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${
+                  className={`inline-block px-1.5 sm:px-2 py-0.5 rounded-lg text-[10px] sm:text-xs font-medium shadow-sm ${
                     request.status === 'Approved'
-                      ? 'bg-green-100 text-green-800'
+                      ? 'bg-green-500 text-white'
                       : request.status === 'Pending'
-                      ? 'bg-yellow-100 text-yellow-800'
-                      : 'bg-red-100 text-red-800'
+                      ? 'bg-yellow-500 text-white'
+                      : 'bg-red-500 text-white'
                   }`}
                 >
                   {request.status}
@@ -39,6 +45,6 @@ export default function LeaveRequestTable({ requests }: LeaveRequestTableProps) 
           ))}
         </tbody>
       </table>
-    </div>
+    </ScrollableCard>
   );
 }
