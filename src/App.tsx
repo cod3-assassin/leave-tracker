@@ -17,7 +17,7 @@ const TechLeadDashboard = lazy(() => import('./pages/tech-lead/Dashboard'));
 const Team = lazy(() => import('./pages/tech-lead/Teams'));
 
 const routes = {
-  public: [{ path: '/', element: <Login /> }],
+  public: [{ path: '/', element: <EmployeeDashboard /> }],
   protected: [
     { path: '/employee/dashboard', element: <EmployeeDashboard /> },
     { path: '/employee/colleagues', element: <Colleagues /> },
