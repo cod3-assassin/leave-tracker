@@ -47,7 +47,7 @@ export default function Colleagues() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-indigo-100/50 px-3 sm:px-4 py-4 sm:py-6">
+    <div className="min-h-screen px-3 sm:px-4 py-4 sm:py-6">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center gap-2 mb-4 sm:mb-5">
           <FiUser className="text-gray-700 w-5 h-5 sm:w-6 sm:h-6" />

@@ -15,9 +15,10 @@ const ManagerDashboard = lazy(() => import('./pages/manager/Dashboard'));
 const Approvals = lazy(() => import('./pages/manager/Approvals'));
 const TechLeadDashboard = lazy(() => import('./pages/tech-lead/Dashboard'));
 const Team = lazy(() => import('./pages/tech-lead/Teams'));
+const LeavePolicy = lazy(() => import('./components/LeavePolicy'))
 
 const routes = {
-  public: [{ path: '/', element: <EmployeeDashboard /> }],
+  public: [{ path: '/', element: <Login /> }],
   protected: [
     { path: '/employee/dashboard', element: <EmployeeDashboard /> },
     { path: '/employee/colleagues', element: <Colleagues /> },
@@ -30,6 +31,7 @@ const routes = {
     { path: '/manager/approvals', element: <ManagerDashboard /> },
     { path: '/tech-lead/dashboard', element: <TechLeadDashboard /> },
     { path: '/tech-lead/team', element: <Team /> },
+    { path: '/employee/leave-policy', element: <LeavePolicy /> }
   ],
 };
 
@@ -37,19 +39,19 @@ export default function App() {
   return (
     <ThemeProvider>
       {/* <BrowserRouter> */}
-        <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-900">Loading...</div>}>
-          <Routes>
-            {routes.public.map(({ path, element }) => (
+      <Suspense fallback={<div className="min-h-screen flex items-center justify-center text-gray-900 dark:text-gray-100 bg-gray-50 dark:bg-gray-900">Loading...</div>}>
+        <Routes>
+          {routes.public.map(({ path, element }) => (
+            <Route key={path} path={path} element={element} />
+          ))}
+          <Route element={<ProtectedLayout />}>
+            {routes.protected.map(({ path, element }) => (
               <Route key={path} path={path} element={element} />
             ))}
-            <Route element={<ProtectedLayout />}>
-              {routes.protected.map(({ path, element }) => (
-                <Route key={path} path={path} element={element} />
-              ))}
-              <Route path="*" element={<div className="text-center text-gray-900 dark:text-gray-100 p-8 bg-gray-50 dark:bg-gray-900">404 - Page Not Found</div>} />
-            </Route>
-          </Routes>
-        </Suspense>
+            <Route path="*" element={<div className="text-center text-gray-900 dark:text-gray-100 p-8 bg-gray-50 dark:bg-gray-900">404 - Page Not Found</div>} />
+          </Route>
+        </Routes>
+      </Suspense>
       {/* </BrowserRouter> */}
     </ThemeProvider>
   );
